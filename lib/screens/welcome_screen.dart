@@ -1,8 +1,8 @@
 // ignore_for_file: use_key_in_widget_constructors
 
 import 'package:flutter/material.dart';
-import 'login_screen.dart';
 import 'signup_screen.dart';
+import 'login_screen.dart';
 
 class WelcomeScreen extends StatelessWidget {
   @override
@@ -46,9 +46,9 @@ class WelcomeScreen extends StatelessWidget {
                   padding: EdgeInsets.symmetric(horizontal: 40, vertical: 12),
                 ),
                 onPressed: () {
-                  Navigator.push(
+                  Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(builder: (_) => LoginScreen()),
+                    MaterialPageRoute(builder: (context) => LoginScreen()),
                   );
                 },
                 child: Text("Login"),
@@ -63,9 +63,9 @@ class WelcomeScreen extends StatelessWidget {
                   padding: EdgeInsets.symmetric(horizontal: 36, vertical: 12),
                 ),
                 onPressed: () {
-                  Navigator.push(
+                  Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(builder: (_) => SignupScreen()),
+                    MaterialPageRoute(builder: (_) => SignUpScreen()),
                   );
                 },
                 child: Text("Sign Up"),
