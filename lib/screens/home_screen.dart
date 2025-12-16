@@ -2,9 +2,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pl_project/cubits/apartment_state.dart';
+import 'package:pl_project/widgets/home_screen_widgets.dart';
 import '../cubits/bottom_nav_cubit.dart';
 import '../cubits/apartment_cubit.dart';
-import '../widgets/apartment_card.dart';
 import 'rent_screen.dart';
 import 'history_screen.dart';
 import 'rating_screen.dart';
@@ -70,11 +70,14 @@ class HomeScreen extends StatelessWidget {
         if (state is ApartmentLoading) {
           return Center(child: CircularProgressIndicator());
         } else if (state is ApartmentLoaded) {
-          return ListView.builder(
-            itemCount: state.apartments.length,
-            itemBuilder: (_, index) {
-              return ApartmentCard(apartment: state.apartments[index]);
-            },
+          return ListView(
+            children: [
+              HomePageCard(
+                imageUrl: "imageUrl",
+                price: "price",
+                address: "address",
+              ),
+            ],
           );
         } else if (state is ApartmentError) {
           return Center(child: Text(state.error));
