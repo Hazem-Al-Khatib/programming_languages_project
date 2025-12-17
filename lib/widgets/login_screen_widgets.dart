@@ -1,25 +1,20 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, deprecated_member_use
 
 import 'package:flutter/material.dart';
-import 'package:pl_project/screens/home_screen.dart';
 import 'package:pl_project/screens/signup_screen.dart';
 
 class UserNameField extends StatelessWidget {
-  const UserNameField({super.key});
+  final TextEditingController controller;
+  const UserNameField({super.key, required this.controller});
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      style: const TextStyle(
-        fontSize: 16,
-        color: Color(0xFF1F2937), // dark gray text
-      ),
+      controller: controller,
+      style: const TextStyle(fontSize: 16, color: Color(0xFF1F2937)),
       decoration: InputDecoration(
         hintText: "Username",
-        hintStyle: const TextStyle(
-          color: Color(0xFF9CA3AF), // soft gray hint
-          fontSize: 16,
-        ),
+        hintStyle: const TextStyle(color: Color(0xFF9CA3AF), fontSize: 16),
         filled: true,
         fillColor: Colors.white,
         contentPadding: const EdgeInsets.symmetric(
@@ -36,10 +31,7 @@ class UserNameField extends StatelessWidget {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
-          borderSide: const BorderSide(
-            color: Color(0xFF1E3A8A), // blue focus
-            width: 1.5,
-          ),
+          borderSide: const BorderSide(color: Color(0xFF1E3A8A), width: 1.5),
         ),
       ),
       validator: (value) {
@@ -53,16 +45,16 @@ class UserNameField extends StatelessWidget {
 }
 
 class PhoneNumberField extends StatelessWidget {
-  const PhoneNumberField({super.key});
+  final TextEditingController controller;
+
+  const PhoneNumberField({super.key, required this.controller});
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      controller: controller,
       keyboardType: TextInputType.phone,
-      style: const TextStyle(
-        fontSize: 16,
-        color: Color(0xFF1F2937), // dark gray text
-      ),
+      style: const TextStyle(fontSize: 16, color: Color(0xFF1F2937)),
       decoration: InputDecoration(
         hintText: "Phone Number",
         hintStyle: const TextStyle(color: Color(0xFF9CA3AF), fontSize: 16),
@@ -82,10 +74,7 @@ class PhoneNumberField extends StatelessWidget {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
-          borderSide: const BorderSide(
-            color: Color(0xFF1E3A8A), // blue focus
-            width: 1.5,
-          ),
+          borderSide: const BorderSide(color: Color(0xFF1E3A8A), width: 1.5),
         ),
       ),
       validator: (value) {
@@ -120,7 +109,7 @@ class DontHaveAnAccount extends StatelessWidget {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (_) => SignUpScreen()),
+              MaterialPageRoute(builder: (_) => const SignUpScreen()),
             );
           },
           child: const Text(
@@ -138,8 +127,9 @@ class DontHaveAnAccount extends StatelessWidget {
 }
 
 class LogInButton extends StatelessWidget {
-  final GlobalKey<FormState> formKey;
-  const LogInButton({super.key, required this.formKey});
+  final VoidCallback onPressed;
+
+  const LogInButton({super.key, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -154,20 +144,7 @@ class LogInButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(16),
           ),
         ),
-        onPressed: () {
-          if (formKey.currentState!.validate()) {
-            ScaffoldMessenger.of(
-              context,
-            ).showSnackBar(const SnackBar(content: Text('Logging in...')));
-
-            Future.delayed(const Duration(seconds: 2), () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => HomeScreen()),
-              );
-            });
-          }
-        },
+        onPressed: onPressed,
         child: const Text(
           "Log In",
           style: TextStyle(

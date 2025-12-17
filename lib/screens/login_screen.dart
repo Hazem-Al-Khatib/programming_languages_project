@@ -1,12 +1,17 @@
-// ignore_for_file: use_key_in_widget_constructors, deprecated_member_use
+// ignore_for_file: deprecated_member_use, use_build_context_synchronously
 
 import 'package:flutter/material.dart';
+import 'package:pl_project/screens/home_screen.dart';
+import 'package:pl_project/services/auth_service.dart';
 import 'package:pl_project/widgets/login_screen_widgets.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  final TextEditingController usernameController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -53,16 +58,50 @@ class LoginScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 24),
 
-                  const UserNameField(),
+                  UserNameField(controller: usernameController),
                   const SizedBox(height: 16),
 
-                  const PhoneNumberField(),
+                  PhoneNumberField(controller: phoneController),
                   const SizedBox(height: 28),
 
-                  LogInButton(formKey: _formKey),
+                  LogInButton(
+                    onPressed: () async {
+                      if (!_formKey.currentState!.validate()) return;
+
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text("Logging in...")),
+                      );
+
+                      final response = await AuthService.login(
+                        username: usernameController.text
+                            .trim(), // ✅ pass the username
+                        phone: phoneController.text.trim(), // ✅ pass the phone
+                      );
+
+                      if (response["user"] != null) {
+                        // ✅ backend now returns 'user'
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text("Login Successful")),
+                        );
+
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (_) => HomeScreen()),
+                        );
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              response["message"] ?? "Login failed",
+                            ),
+                          ),
+                        );
+                      }
+                    },
+                  ),
 
                   const SizedBox(height: 20),
-                  DontHaveAnAccount(),
+                  const DontHaveAnAccount(),
                 ],
               ),
             ),
