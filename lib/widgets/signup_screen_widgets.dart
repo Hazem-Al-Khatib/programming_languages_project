@@ -23,10 +23,6 @@ class FirstNameField extends StatelessWidget {
           horizontal: 20,
           vertical: 18,
         ),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(14),
-          borderSide: const BorderSide(color: Color(0xFFE5E7EB)),
-        ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
           borderSide: const BorderSide(color: Color(0xFFE5E7EB)),
@@ -35,6 +31,7 @@ class FirstNameField extends StatelessWidget {
           borderRadius: BorderRadius.circular(14),
           borderSide: const BorderSide(color: Color(0xFF1E3A8A), width: 1.5),
         ),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(14)),
       ),
       validator: (value) {
         if (value == null || value.trim().isEmpty)
@@ -63,10 +60,6 @@ class LastNameField extends StatelessWidget {
           horizontal: 20,
           vertical: 18,
         ),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(14),
-          borderSide: const BorderSide(color: Color(0xFFE5E7EB)),
-        ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
           borderSide: const BorderSide(color: Color(0xFFE5E7EB)),
@@ -75,6 +68,7 @@ class LastNameField extends StatelessWidget {
           borderRadius: BorderRadius.circular(14),
           borderSide: const BorderSide(color: Color(0xFF1E3A8A), width: 1.5),
         ),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(14)),
       ),
       validator: (value) {
         if (value == null || value.trim().isEmpty)
@@ -104,10 +98,6 @@ class PhoneNumberField extends StatelessWidget {
           horizontal: 20,
           vertical: 18,
         ),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(14),
-          borderSide: const BorderSide(color: Color(0xFFE5E7EB)),
-        ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
           borderSide: const BorderSide(color: Color(0xFFE5E7EB)),
@@ -116,6 +106,7 @@ class PhoneNumberField extends StatelessWidget {
           borderRadius: BorderRadius.circular(14),
           borderSide: const BorderSide(color: Color(0xFF1E3A8A), width: 1.5),
         ),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(14)),
       ),
       validator: (value) {
         if (value == null || value.trim().isEmpty)
@@ -143,11 +134,30 @@ class _BirthDateFieldState extends State<BirthDateField> {
     return TextFormField(
       controller: widget.controller,
       readOnly: true,
-      decoration: const InputDecoration(
+      style: const TextStyle(fontSize: 16, color: Color(0xFF1F2937)),
+      decoration: InputDecoration(
         hintText: "Birth Date",
+        hintStyle: const TextStyle(color: Color(0xFF9CA3AF), fontSize: 16),
         filled: true,
         fillColor: Colors.white,
-        border: OutlineInputBorder(),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 20,
+          vertical: 18,
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(14),
+          borderSide: const BorderSide(color: Color(0xFFE5E7EB)),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(14),
+          borderSide: const BorderSide(color: Color(0xFF1E3A8A), width: 1.5),
+        ),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(14)),
+        suffixIcon: const Icon(
+          Icons.calendar_today,
+          size: 20,
+          color: Color(0xFF6B7280),
+        ),
       ),
       validator: (value) {
         if (value == null || value.isEmpty) return "Birth date is required";
@@ -161,9 +171,128 @@ class _BirthDateFieldState extends State<BirthDateField> {
           lastDate: DateTime.now(),
         );
         if (pickedDate != null) {
-          widget.controller.text =
-              "${pickedDate.year}-${pickedDate.month}-${pickedDate.day}";
+          setState(() {
+            widget.controller.text =
+                "${pickedDate.year}-${pickedDate.month.toString().padLeft(2, '0')}-${pickedDate.day.toString().padLeft(2, '0')}";
+          });
         }
+      },
+    );
+  }
+}
+
+class PasswordField extends StatefulWidget {
+  final TextEditingController controller;
+  final String hintText;
+  const PasswordField({
+    super.key,
+    required this.controller,
+    this.hintText = "Password",
+  });
+
+  @override
+  _PasswordFieldState createState() => _PasswordFieldState();
+}
+
+class _PasswordFieldState extends State<PasswordField> {
+  bool _obscureText = true;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      controller: widget.controller,
+      obscureText: _obscureText,
+      style: const TextStyle(fontSize: 16, color: Color(0xFF1F2937)),
+      decoration: InputDecoration(
+        hintText: widget.hintText,
+        hintStyle: const TextStyle(color: Color(0xFF9CA3AF), fontSize: 16),
+        filled: true,
+        fillColor: Colors.white,
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 20,
+          vertical: 18,
+        ),
+        suffixIcon: IconButton(
+          icon: Icon(
+            _obscureText ? Icons.visibility_off : Icons.visibility,
+            color: const Color(0xFF9CA3AF),
+          ),
+          onPressed: () => setState(() => _obscureText = !_obscureText),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(14),
+          borderSide: const BorderSide(color: Color(0xFFE5E7EB)),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(14),
+          borderSide: const BorderSide(color: Color(0xFF1E3A8A), width: 1.5),
+        ),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(14)),
+      ),
+      validator: (value) {
+        if (value == null || value.isEmpty)
+          return "${widget.hintText} is required";
+        if (value.length < 6) return "Password must be at least 6 characters";
+        return null;
+      },
+    );
+  }
+}
+
+class ConfirmPasswordField extends StatefulWidget {
+  final TextEditingController controller;
+  final TextEditingController originalPasswordController;
+  const ConfirmPasswordField({
+    super.key,
+    required this.controller,
+    required this.originalPasswordController,
+  });
+
+  @override
+  _ConfirmPasswordFieldState createState() => _ConfirmPasswordFieldState();
+}
+
+class _ConfirmPasswordFieldState extends State<ConfirmPasswordField> {
+  bool _obscureText = true;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      controller: widget.controller,
+      obscureText: _obscureText,
+      style: const TextStyle(fontSize: 16, color: Color(0xFF1F2937)),
+      decoration: InputDecoration(
+        hintText: "Confirm Password",
+        hintStyle: const TextStyle(color: Color(0xFF9CA3AF), fontSize: 16),
+        filled: true,
+        fillColor: Colors.white,
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 20,
+          vertical: 18,
+        ),
+        suffixIcon: IconButton(
+          icon: Icon(
+            _obscureText ? Icons.visibility_off : Icons.visibility,
+            color: const Color(0xFF9CA3AF),
+          ),
+          onPressed: () => setState(() => _obscureText = !_obscureText),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(14),
+          borderSide: const BorderSide(color: Color(0xFFE5E7EB)),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(14),
+          borderSide: const BorderSide(color: Color(0xFF1E3A8A), width: 1.5),
+        ),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(14)),
+      ),
+      validator: (value) {
+        if (value == null || value.isEmpty)
+          return "Please confirm your password";
+        if (value != widget.originalPasswordController.text)
+          return "Passwords do not match";
+        return null;
       },
     );
   }
@@ -201,7 +330,13 @@ class _IDImageFieldState extends State<IDImageField> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(widget.label, style: const TextStyle(fontWeight: FontWeight.bold)),
+        Text(
+          widget.label,
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+            color: Color(0xFF1F2937),
+          ),
+        ),
         const SizedBox(height: 8),
         GestureDetector(
           onTap: _pickImage,
@@ -209,13 +344,20 @@ class _IDImageFieldState extends State<IDImageField> {
             height: 120,
             width: 120,
             decoration: BoxDecoration(
-              border: Border.all(color: Colors.grey),
+              border: Border.all(color: const Color(0xFFE5E7EB)),
               borderRadius: BorderRadius.circular(12),
-              color: Colors.grey[200],
+              color: const Color(0xFFF9FAFB),
             ),
             child: _imageFile == null
-                ? const Icon(Icons.add_a_photo, size: 40, color: Colors.grey)
-                : Image.file(_imageFile!, fit: BoxFit.cover),
+                ? const Icon(
+                    Icons.add_a_photo,
+                    size: 40,
+                    color: Color(0xFF9CA3AF),
+                  )
+                : ClipRRect(
+                    borderRadius: BorderRadius.circular(12),
+                    child: Image.file(_imageFile!, fit: BoxFit.cover),
+                  ),
           ),
         ),
       ],
@@ -255,7 +397,13 @@ class _PersonalImageFieldState extends State<PersonalImageField> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(widget.label, style: const TextStyle(fontWeight: FontWeight.bold)),
+        Text(
+          widget.label,
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+            color: Color(0xFF1F2937),
+          ),
+        ),
         const SizedBox(height: 8),
         GestureDetector(
           onTap: _pickImage,
@@ -263,13 +411,20 @@ class _PersonalImageFieldState extends State<PersonalImageField> {
             height: 120,
             width: 120,
             decoration: BoxDecoration(
-              border: Border.all(color: Colors.grey),
+              border: Border.all(color: const Color(0xFFE5E7EB)),
               borderRadius: BorderRadius.circular(12),
-              color: Colors.grey[200],
+              color: const Color(0xFFF9FAFB),
             ),
             child: _imageFile == null
-                ? const Icon(Icons.add_a_photo, size: 40, color: Colors.grey)
-                : Image.file(_imageFile!, fit: BoxFit.cover),
+                ? const Icon(
+                    Icons.add_a_photo,
+                    size: 40,
+                    color: Color(0xFF9CA3AF),
+                  )
+                : ClipRRect(
+                    borderRadius: BorderRadius.circular(12),
+                    child: Image.file(_imageFile!, fit: BoxFit.cover),
+                  ),
           ),
         ),
       ],
@@ -290,12 +445,10 @@ class AlreadyHaveAnAccount extends StatelessWidget {
           style: TextStyle(color: Color(0xFF6B7280), fontSize: 14),
         ),
         TextButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (_) => LoginScreen()),
-            );
-          },
+          onPressed: () => Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (_) => LoginScreen()),
+          ),
           child: const Text(
             "Log in",
             style: TextStyle(

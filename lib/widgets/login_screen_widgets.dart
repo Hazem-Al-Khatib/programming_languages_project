@@ -1,48 +1,7 @@
-// ignore_for_file: use_build_context_synchronously, deprecated_member_use
+// ignore_for_file: use_build_context_synchronously, deprecated_member_use, library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
 import 'package:pl_project/screens/signup_screen.dart';
-
-class UserNameField extends StatelessWidget {
-  final TextEditingController controller;
-  const UserNameField({super.key, required this.controller});
-
-  @override
-  Widget build(BuildContext context) {
-    return TextFormField(
-      controller: controller,
-      style: const TextStyle(fontSize: 16, color: Color(0xFF1F2937)),
-      decoration: InputDecoration(
-        hintText: "Username",
-        hintStyle: const TextStyle(color: Color(0xFF9CA3AF), fontSize: 16),
-        filled: true,
-        fillColor: Colors.white,
-        contentPadding: const EdgeInsets.symmetric(
-          horizontal: 20,
-          vertical: 18,
-        ),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(14),
-          borderSide: const BorderSide(color: Color(0xFFE5E7EB)),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(14),
-          borderSide: const BorderSide(color: Color(0xFFE5E7EB)),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(14),
-          borderSide: const BorderSide(color: Color(0xFF1E3A8A), width: 1.5),
-        ),
-      ),
-      validator: (value) {
-        if (value == null || value.trim().isEmpty) {
-          return "Username is required";
-        }
-        return null;
-      },
-    );
-  }
-}
 
 class PhoneNumberField extends StatelessWidget {
   final TextEditingController controller;
@@ -64,9 +23,60 @@ class PhoneNumberField extends StatelessWidget {
           horizontal: 20,
           vertical: 18,
         ),
-        border: OutlineInputBorder(
+        enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
           borderSide: const BorderSide(color: Color(0xFFE5E7EB)),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(14),
+          borderSide: const BorderSide(color: Color(0xFF1E3A8A), width: 1.5),
+        ),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(14)),
+      ),
+      validator: (value) {
+        if (value == null || value.trim().isEmpty)
+          return "Phone number is required";
+        if (!RegExp(r'^\d+$').hasMatch(value))
+          return "Enter a valid phone number";
+        if (value.length < 10) return "Phone number is too short";
+        return null;
+      },
+    );
+  }
+}
+
+class PasswordField extends StatefulWidget {
+  final TextEditingController controller;
+  const PasswordField({super.key, required this.controller});
+
+  @override
+  _PasswordFieldState createState() => _PasswordFieldState();
+}
+
+class _PasswordFieldState extends State<PasswordField> {
+  bool _obscureText = true;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      controller: widget.controller,
+      obscureText: _obscureText,
+      style: const TextStyle(fontSize: 16, color: Color(0xFF1F2937)),
+      decoration: InputDecoration(
+        hintText: "Password",
+        hintStyle: const TextStyle(color: Color(0xFF9CA3AF), fontSize: 16),
+        filled: true,
+        fillColor: Colors.white,
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 20,
+          vertical: 18,
+        ),
+        suffixIcon: IconButton(
+          icon: Icon(
+            _obscureText ? Icons.visibility_off : Icons.visibility,
+            color: const Color(0xFF9CA3AF),
+          ),
+          onPressed: () => setState(() => _obscureText = !_obscureText),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
@@ -76,17 +86,10 @@ class PhoneNumberField extends StatelessWidget {
           borderRadius: BorderRadius.circular(14),
           borderSide: const BorderSide(color: Color(0xFF1E3A8A), width: 1.5),
         ),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(14)),
       ),
       validator: (value) {
-        if (value == null || value.trim().isEmpty) {
-          return "Phone number is required";
-        }
-        if (!RegExp(r'^\d+$').hasMatch(value)) {
-          return "Enter a valid phone number";
-        }
-        if (value.length < 10) {
-          return "Phone number is too short";
-        }
+        if (value == null || value.isEmpty) return "Password is required";
         return null;
       },
     );
@@ -107,7 +110,7 @@ class DontHaveAnAccount extends StatelessWidget {
         ),
         TextButton(
           onPressed: () {
-            Navigator.push(
+            Navigator.pushReplacement(
               context,
               MaterialPageRoute(builder: (_) => const SignUpScreen()),
             );
@@ -128,7 +131,6 @@ class DontHaveAnAccount extends StatelessWidget {
 
 class LogInButton extends StatelessWidget {
   final VoidCallback onPressed;
-
   const LogInButton({super.key, required this.onPressed});
 
   @override

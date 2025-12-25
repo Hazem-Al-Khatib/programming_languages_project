@@ -1,8 +1,7 @@
-// ignore_for_file: deprecated_member_use, use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, deprecated_member_use
 
 import 'package:flutter/material.dart';
 import 'package:pl_project/screens/home_screen.dart';
-import 'package:pl_project/services/auth_service.dart';
 import 'package:pl_project/widgets/login_screen_widgets.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -10,8 +9,9 @@ class LoginScreen extends StatelessWidget {
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  final TextEditingController usernameController = TextEditingController();
+  // Updated controllers to match the new fields
   final TextEditingController phoneController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -58,45 +58,26 @@ class LoginScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 24),
 
-                  UserNameField(controller: usernameController),
+                  // 1. Swapped Username for Phone Number
+                  PhoneNumberField(controller: phoneController),
                   const SizedBox(height: 16),
 
-                  PhoneNumberField(controller: phoneController),
+                  // 2. Swapped Phone Number for Password
+                  PasswordField(controller: passwordController),
                   const SizedBox(height: 28),
 
                   LogInButton(
-                    onPressed: () async {
+                    onPressed: () {
                       if (!_formKey.currentState!.validate()) return;
 
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text("Logging in...")),
+                        const SnackBar(content: Text("Login Successful")),
                       );
 
-                      final response = await AuthService.login(
-                        username: usernameController.text
-                            .trim(), // ✅ pass the username
-                        phone: phoneController.text.trim(), // ✅ pass the phone
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (_) => HomeScreen()),
                       );
-
-                      if (response["user"] != null) {
-                        // ✅ backend now returns 'user'
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text("Login Successful")),
-                        );
-
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(builder: (_) => HomeScreen()),
-                        );
-                      } else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(
-                              response["message"] ?? "Login failed",
-                            ),
-                          ),
-                        );
-                      }
                     },
                   ),
 

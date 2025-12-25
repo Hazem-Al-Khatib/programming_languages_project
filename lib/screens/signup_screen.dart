@@ -3,7 +3,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:pl_project/screens/login_screen.dart';
-import 'package:pl_project/services/auth_service.dart';
 import 'package:pl_project/widgets/signup_screen_widgets.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -19,6 +18,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController firstNameController = TextEditingController();
   final TextEditingController lastNameController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController confirmPasswordController =
+      TextEditingController();
   final TextEditingController birthDateController = TextEditingController();
 
   File? idImage;
@@ -83,6 +85,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   BirthDateField(controller: birthDateController),
                   const SizedBox(height: 16),
 
+                  // Password fields
+                  PasswordField(controller: passwordController),
+                  const SizedBox(height: 16),
+
+                  ConfirmPasswordField(
+                    controller: confirmPasswordController,
+                    originalPasswordController: passwordController,
+                  ),
+                  const SizedBox(height: 24),
+
                   // ID and personal images
                   IDImageField(
                     label: "Upload ID Image",
@@ -97,7 +109,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
                   // Sign up button
                   SignUpButton(
-                    onPressed: () async {
+                    onPressed: () {
                       if (!_formKey.currentState!.validate()) return;
 
                       if (idImage == null || personalImage == null) {
@@ -111,33 +123,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         return;
                       }
 
+                      // Local UI feedback only
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text("Signing up...")),
+                        const SnackBar(
+                          content: Text("Account created successfully!"),
+                        ),
                       );
 
-                      final response = await AuthService.signup(
-                        firstName: firstNameController.text.trim(),
-                        lastName: lastNameController.text.trim(),
-                        phone: phoneController.text.trim(),
-                        birthDate: birthDateController.text.trim(),
-                        idImage: idImage!,
-                        personalImage: personalImage!,
+                      // Direct navigation to Login
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (_) => LoginScreen()),
                       );
-
-                      if (response["success"] == true) {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(builder: (_) => LoginScreen()),
-                        );
-                      } else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(
-                              response["message"] ?? "Signup failed",
-                            ),
-                          ),
-                        );
-                      }
                     },
                   ),
                   const SizedBox(height: 12),
