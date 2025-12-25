@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pl_project/cubits/bottom_nav_cubit.dart';
-import 'package:pl_project/widgets/bottom_nav_bar.dart'; // Ensure this matches your filename
+import 'package:pl_project/widgets/bottom_nav_bar.dart';
 import 'package:pl_project/widgets/home_screen_widgets.dart';
 
 import 'rent_screen.dart';

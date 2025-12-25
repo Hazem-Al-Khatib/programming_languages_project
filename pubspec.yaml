@@ -25,7 +25,6 @@ dev_dependencies:
 flutter:
   uses-material-design: true # This must be here for icons to work
 
-  # Assets section restored
   assets:
     - assets/images/ # This includes all files in the assets folder
     # - assets/images/ # Use this if your images are in a subfolder
