@@ -33,7 +33,7 @@ class HomePageCard extends StatelessWidget {
           // House Image
           ClipRRect(
             borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
-            child: Image.network(
+            child: Image.asset(
               imageUrl,
               height: 180,
               width: double.infinity,

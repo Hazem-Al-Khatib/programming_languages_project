@@ -11,9 +11,24 @@ class ApartmentCubit extends Cubit<ApartmentState> {
       // Simulate API call
       await Future.delayed(Duration(seconds: 1));
       List<Apartment> apartments = [
-        Apartment(name: "Green Villa", city: "Cairo", price: 2500),
-        Apartment(name: "Sunny Apartment", city: "Alexandria", price: 1800),
-        Apartment(name: "Sea View Flat", city: "Hurghada", price: 3000),
+        Apartment(
+          name: "Green Villa",
+          city: "Cairo",
+          price: 2500,
+          imageUrl: 'assets/images/house.png',
+        ),
+        Apartment(
+          name: "Sunny Apartment",
+          city: "Alexandria",
+          price: 1800,
+          imageUrl: 'assets/images/house.png',
+        ),
+        Apartment(
+          name: "Sea View Flat",
+          city: "Hurghada",
+          price: 3000,
+          imageUrl: 'assets/images/house.png',
+        ),
       ];
       emit(ApartmentLoaded(apartments));
     } catch (e) {
