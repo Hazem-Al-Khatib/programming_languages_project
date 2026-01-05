@@ -5,21 +5,24 @@ import 'signup_screen.dart';
 import 'login_screen.dart';
 
 class WelcomeScreen extends StatelessWidget {
+  const WelcomeScreen({super.key}); // ✅ استخدمنا super parameter
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF1E3A8A),
+      backgroundColor: const Color(0xFF1E3A8A),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.home_work_rounded, size: 120, color: Colors.white),
+              const Icon(Icons.home_work_rounded,
+                  size: 120, color: Colors.white),
 
-              SizedBox(height: 30),
+              const SizedBox(height: 30),
 
-              Text(
+              const Text(
                 "Welcome to RentEase",
                 style: TextStyle(
                   color: Colors.white,
@@ -29,29 +32,31 @@ class WelcomeScreen extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
 
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
 
-              Text(
+              const Text(
                 "Find and rent apartments easily",
                 style: TextStyle(color: Colors.white70, fontSize: 16),
                 textAlign: TextAlign.center,
               ),
 
-              SizedBox(height: 50),
+              const SizedBox(height: 50),
 
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.white,
                   foregroundColor: Colors.blueAccent,
-                  padding: EdgeInsets.symmetric(horizontal: 40, vertical: 12),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 40, vertical: 12),
                 ),
                 onPressed: () {
                   Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(builder: (context) => LoginScreen()),
+                    MaterialPageRoute(
+                        builder: (context) =>  LoginScreen()),
                   );
                 },
-                child: Text(
+                child: const Text(
                   "Login",
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
@@ -60,21 +65,23 @@ class WelcomeScreen extends StatelessWidget {
                 ),
               ),
 
-              SizedBox(height: 15),
+              const SizedBox(height: 15),
 
               OutlinedButton(
                 style: OutlinedButton.styleFrom(
-                  side: BorderSide(color: Colors.white),
+                  side: const BorderSide(color: Colors.white),
                   foregroundColor: Colors.white,
-                  padding: EdgeInsets.symmetric(horizontal: 36, vertical: 12),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 36, vertical: 12),
                 ),
                 onPressed: () {
                   Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(builder: (_) => SignUpScreen()),
+                    MaterialPageRoute(
+                        builder: (_) =>  SignUpScreen()),
                   );
                 },
-                child: Text("Sign Up"),
+                child: const Text("Sign Up"),
               ),
             ],
           ),

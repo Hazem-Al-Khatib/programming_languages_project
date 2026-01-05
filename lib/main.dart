@@ -1,20 +1,18 @@
-// ignore_for_file: use_key_in_widget_constructors
 import 'package:flutter/material.dart';
-import 'package:pl_project/screens/welcome_screen.dart';
+import 'screens/welcome_screen.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Rental App',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData.light(),
-      darkTheme: ThemeData.dark(),
-      home: WelcomeScreen(),
+      home: const WelcomeScreen(), // ← هالشاشة تظهر أول شي
     );
   }
 }

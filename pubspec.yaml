@@ -1,3 +1,5 @@
+
+
 name: pl_project
 description: "A new Flutter project."
 publish_to: 'none'
@@ -10,12 +12,17 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  provider: ^6.0.5
   cupertino_icons: ^1.0.8
+
+
+    
+  
   flutter_bloc: ^9.1.1
   http: ^1.6.0
   image_picker: ^1.2.1
-  firebase_core: ^4.3.0
-  cloud_firestore: ^6.1.1
+#   firebase_core: ^4.3.0
+#   cloud_firestore: ^6.1.1
 
 dev_dependencies:
   flutter_test:
